@@ -16,6 +16,7 @@ public class Drivetrain extends SubsystemBase {
   public Drivetrain() {
     leftMotor = new Spark(0);
     rightMotor = new Spark(1);
+    rightMotor.setInverted(true);
   }
 
   public void tankDrive(double leftSpeed, double rightSpeed) {
