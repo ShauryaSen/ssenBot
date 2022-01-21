@@ -15,7 +15,7 @@ def includeDesktopSupport = true
 // Also defines JUnit 4.
 dependencies {
     ////////;'/';''
-    compile 'com.github.StuyPulse:StuyLib:2022.1.0'
+    compile 'com.github.StuyPulse:StuyLib:v2021.2.2'
 
     implementation wpi.deps.wpilib()
     nativeDesktopZip wpi.deps.wpilibJni(wpi.platforms.desktop)
