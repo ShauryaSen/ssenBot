@@ -3,11 +3,12 @@
 // the WPILib BSD license file in the root directory of this project.
 
 package frc.robot;
-
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import com.stuypulse.stuylib.input.gamepads.AutoGamepad;
 import frc.robot.commands.DrivetrainDrive;
+import frc.robot.commands.DrivetrainResetCommand;
+import frc.robot.commands.MotionControlDemos.PForwardCommand;
 import frc.robot.subsystems.Drivetrain;
 import edu.wpi.first.wpilibj2.command.Command;
 
@@ -37,8 +38,10 @@ public class RobotContainer {
   }
 
   private void configureButtonBindings() {
-
-    
+    // 
+    driver.getBottomButton().whenPressed(new PForwardCommand(10.0, drivetrain, 0.05)); // 50% of motor_output
+    // reset encoders (PForward Command does it for you too)
+    driver.getLeftButton().whenPressed(new DrivetrainResetCommand(drivetrain));
   }
 
   /**

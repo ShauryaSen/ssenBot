@@ -12,4 +12,23 @@ package frc.robot;
  * <p>It is advised to statically import this class (or one of its inner classes) wherever the
  * constants are needed, to reduce verbosity.
  */
-public final class Constants {}
+public final class Constants {
+    // dimensions
+    private static final double ROBOT_SCALE = 1.0 / 5.0;
+    public static final double TRACK_WIDTH = 0.141 / ROBOT_SCALE;
+
+    // Spark Ports
+    public static final int LEFT_MOTOR = 0;
+    public static final int RIGHT_MOTOR = 1;
+
+    // Encoder Ports
+    public static final int LEFT_ENCODER_A = 4;
+    public static final int LEFT_ENCODER_B = 5;
+    public static final int RIGHT_ENCODER_A = 6;
+    public static final int RIGHT_ENCODER_B = 7;
+
+    // Encoder
+    public static final double COUNTS_PER_REVOLUTION = 1440.0;
+    public static final double WHEEL_DIAMETER_METER = 0.070 / ROBOT_SCALE;
+    public static final double DISTANCE_PER_PULSE = (Math.PI * WHEEL_DIAMETER_METER) / COUNTS_PER_REVOLUTION;
+}
