@@ -39,7 +39,7 @@ public class RobotContainer {
 
   private void configureButtonBindings() {
     // 
-    driver.getBottomButton().whenPressed(new PForwardCommand(10.0, drivetrain, 0.05)); // 50% of motor_output
+    driver.getBottomButton().whenPressed(new PForwardCommand(10.0, drivetrain, 0.07)); // 50% of motor_output
     // reset encoders (PForward Command does it for you too)
     driver.getLeftButton().whenPressed(new DrivetrainResetCommand(drivetrain));
   }

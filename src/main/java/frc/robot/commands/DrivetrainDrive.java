@@ -32,7 +32,16 @@ public class DrivetrainDrive extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-      drivetrain.arcadeDrive(driver.getLeftY(), driver.getRightX());
+    double leftY = driver.getLeftY();
+    double rightX = driver.getRightX();
+
+    if (Math.abs(driver.getLeftY()) < 0.1) {
+      leftY = 0.0;
+    }
+    if (Math.abs(driver.getRightX()) < 0.1) {
+      rightX = 0.0;
+    }
+      drivetrain.arcadeDrive(leftY, rightX);
   }
 
 }

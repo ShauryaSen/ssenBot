@@ -109,10 +109,7 @@ public class Drivetrain extends SubsystemBase {
       leftEncoder.reset();
       rightEncoder.reset();
   }
-
-
-
-
+  
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
