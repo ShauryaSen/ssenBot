@@ -8,6 +8,7 @@ import java.text.SimpleDateFormat;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Drivetrain;
+import frc.robot.subsystems.Charts.Grapher;
 
 public class PForwardCommand extends CommandBase{
     
@@ -17,8 +18,7 @@ public class PForwardCommand extends CommandBase{
     private double rawMotorOutput;
     private double error;
 
-    // the pov writer
-    private PrintWriter writer;
+    private Grapher grapher;
 
 
     // auton that goes forward a specified amount using kP value
@@ -27,20 +27,16 @@ public class PForwardCommand extends CommandBase{
         this.drivetrain = drivetrain;
         this.kP = kP;
 
-        try {
-            String time = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss").format(new Date());
-            this.writer = new PrintWriter("src/main/java/frc/robot/subsystems/Graphs/" + time + ".csv");
-        } catch (FileNotFoundException e){
-            e.printStackTrace();
-        }
+        this.grapher = new Grapher();
+        
 
-        // set up columns
-        writer.print("error, ");
-        writer.print("MotorOutput (kP * error), ");
-        writer.print("Distance, ");
-        writer.print("kP, ");
-        writer.print("SetPoint, ");
-        writer.print("\n, ");
+        // սէդ ըբ գոլըմնս
+        grapher.write("error, ");
+        grapher.write("MotorOutput (kP * error)");
+        grapher.write("Distance");
+        grapher.write("kP");
+        grapher.write("SetPoint");
+        grapher.write("\n");
         
         
 
@@ -61,12 +57,12 @@ public class PForwardCommand extends CommandBase{
         drivetrain.arcadeDrive(rawMotorOutput, 0);
 
         // log
-        writer.print(error + ", ");
-        writer.print(rawMotorOutput + ", ");
-        writer.print(drivetrain.getDistance() + ", ");
-        writer.print(kP + ", ");
-        writer.print(this.setPoint + ", ");
-        writer.print("\n, ");
+        grapher.write(error);
+        grapher.write(rawMotorOutput);
+        grapher.write(drivetrain.getDistance());
+        grapher.write(kP);
+        grapher.write(this.setPoint);
+        grapher.write("\n");
 
     }
 
@@ -78,7 +74,7 @@ public class PForwardCommand extends CommandBase{
 
     @Override
     public void end(boolean interrupted) {
-        writer.flush();
+        grapher.flush();
         drivetrain.stop();
     }
 }
