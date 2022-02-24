@@ -8,6 +8,8 @@ import com.stuypulse.stuylib.math.Angle;
 
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Spark;
+import edu.wpi.first.wpilibj.romi.RomiGyro;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
@@ -21,6 +23,13 @@ public class Drivetrain extends SubsystemBase {
   private final Encoder leftEncoder;
   private final Encoder rightEncoder;  
   
+  // Gyro
+  private final RomiGyro gyro;
+
+  // Odometer
+  private final DifferentialDriveOdometry odometer;
+
+  // Field 
 
   public Drivetrain() {
     // set up motors
@@ -36,10 +45,23 @@ public class Drivetrain extends SubsystemBase {
     leftEncoder.setDistancePerPulse(Constants.DISTANCE_PER_PULSE);
     rightEncoder.setDistancePerPulse(Constants.DISTANCE_PER_PULSE);
 
+    // encoders must be set to zero before making DifferentialDriveOdometryy
     resetEncoders();
+
+    // gyro
+    gyro = new RomiGyro();
+
+    // odometry
+    odometer = new DifferentialDriveOdometry(Constants.START_ANG, Constants.START_POSE);
+
+
   }
 
   public void tankDrive(double leftSpeed, double rightSpeed) {
+    if (Math.absleftSpeed > 1 || rightSpeed > 1) {
+
+    }
+    
     leftMotor.set(leftSpeed);
     rightMotor.set(rightSpeed);
   }
@@ -109,14 +131,32 @@ public class Drivetrain extends SubsystemBase {
       leftEncoder.reset();
       rightEncoder.reset();
   }
+
+  //////// GYRO ////////
+
+  public void getAngle() {}
+
+  //////// ODOMETRY ////////
+
+  public void updateOdometry() {
+
+    
+
+    odometry.update(Rotation2d.fromDegrees(), getLeftDistance(), getRightDistance());
+  }
+
+  public void resetOdmetry() {
+    
+  }
   
   @Override
   public void periodic() {
+    updateOdometry();
     // This method will be called once per scheduler run
   }
 
   @Override
   public void simulationPeriodic() {
-    // This method will be called once per scheduler run during simulation
+      // This method will be called once per scheduler run during simulation
   }
 }

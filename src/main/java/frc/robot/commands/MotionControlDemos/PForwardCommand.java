@@ -5,7 +5,7 @@ import java.io.PrintWriter;
 import java.util.Date;
 import java.text.SimpleDateFormat;
 
-
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Charts.Grapher;
@@ -37,10 +37,6 @@ public class PForwardCommand extends CommandBase{
         grapher.write("kP");
         grapher.write("SetPoint");
         grapher.write("\n");
-        
-        
-
-        
 
         // reset the encoders
         drivetrain.resetEncoders();
@@ -52,6 +48,8 @@ public class PForwardCommand extends CommandBase{
     
     @Override
     public void execute() {
+        //SmartDashboard.putNumber("Romi/Setpoint", setPoint);
+
         error = setPoint - drivetrain.getDistance();
         rawMotorOutput = kP * error;
         drivetrain.arcadeDrive(rawMotorOutput, 0);

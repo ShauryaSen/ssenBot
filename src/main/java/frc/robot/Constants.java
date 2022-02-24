@@ -27,8 +27,16 @@ public final class Constants {
     public static final int RIGHT_ENCODER_A = 6;
     public static final int RIGHT_ENCODER_B = 7;
 
-    // Encoder
+    // Encoders
     public static final double COUNTS_PER_REVOLUTION = 1440.0;
     public static final double WHEEL_DIAMETER_METER = 0.070 / ROBOT_SCALE;
     public static final double DISTANCE_PER_PULSE = (Math.PI * WHEEL_DIAMETER_METER) / COUNTS_PER_REVOLUTION;
+
+    // Odometry
+    double START_X = 0.0;
+    double START_Y = 0.0;
+
+    Rotation2d START_ANG = new Rotation2d(0.0);
+
+    Pose2d START_POSE = new Pose2d(START_X, START_Y, START_ANG);
 }
