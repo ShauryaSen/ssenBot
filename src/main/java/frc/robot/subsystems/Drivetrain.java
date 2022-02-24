@@ -69,14 +69,28 @@ public class Drivetrain extends SubsystemBase {
   }
 
   public void tankDrive(double leftSpeed, double rightSpeed) {
+
+    drivetrain.tankDrive(leftSpeed, rightSpeed, false);
   
-    leftMotor.set(leftSpeed);
-    rightMotor.set(rightSpeed);
+    // leftMotor.set(leftSpeed);
+    // rightMotor.set(rightSpeed);
   }
 
   public void arcadeDrive(double speed, double rotation) {
-    tankDrive(speed + rotation, speed - rotation);
+    drivetrain.arcadeDrive(speed, rotation, false)
+
+    //tankDrive(speed + rotation, speed - rotation);
   }
+
+  public void curvatureDrive(double xaxisSpeed, double zaxisRotate, boolean isQuickTurn) {
+    drivetrain.curvatureDrive(xaxisSpeed, zaxisRotate, isQuickTurn);
+  }
+
+public void tankDriveVolts(double leftVolts, double rightVolts) {
+    leftMotor.setVoltage(leftVolts);
+    rightMotor.setVoltage(rightVolts);
+    drivetrain.feed();
+}
 
   public void stop() {
     leftMotor.set(0);
