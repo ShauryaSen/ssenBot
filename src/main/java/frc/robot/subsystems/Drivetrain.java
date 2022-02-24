@@ -8,9 +8,13 @@ import com.stuypulse.stuylib.math.Angle;
 
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Spark;
+import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+import edu.wpi.first.wpilibj.geometry.Pose2d;
+import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveOdometry;
+import edu.wpi.first.wpilibj.kinematics.DifferentialDriveWheelSpeeds;
 import edu.wpi.first.wpilibj.romi.RomiGyro;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
@@ -20,6 +24,8 @@ public class Drivetrain extends SubsystemBase {
   private final Spark leftMotor;
   private final Spark rightMotor; 
 
+  private final DifferentialDrive drivetrain;
+
   // Encoders
   private final Encoder leftEncoder;
   private final Encoder rightEncoder;  
@@ -28,15 +34,18 @@ public class Drivetrain extends SubsystemBase {
   private final RomiGyro gyro;
 
   // Odometer
-  private final DifferentialDriveOdometry odometer;
+  private final DifferentialDriveOdometry odometry;
 
   // Field 
+  private Field2d field;
 
   public Drivetrain() {
     // set up motors
     leftMotor = new Spark(0);
     rightMotor = new Spark(1);
     rightMotor.setInverted(true);
+
+    drivetrain = new DifferentialDrive(leftMotor, rightMotor);
 
     // set up encoders
     leftEncoder = new Encoder(Constants.LEFT_ENCODER_A, Constants.LEFT_ENCODER_B, false);
@@ -53,9 +62,10 @@ public class Drivetrain extends SubsystemBase {
     gyro = new RomiGyro();
 
     // odometry
-    odometer = new DifferentialDriveOdometry(Constants.START_ANG, Constants.START_POSE);
+    odometry = new DifferentialDriveOdometry(Constants.START_ANG, Constants.START_POSE);
 
-
+    // field
+    field = new Field2d();
   }
 
   public void tankDrive(double leftSpeed, double rightSpeed) {
@@ -132,24 +142,56 @@ public class Drivetrain extends SubsystemBase {
 
   //////// GYRO ////////
 
-  public void getAngle() {}
+  // yaw
+  public Angle getAngle() {
+    return Angle.fromDegrees(-gyro.getAngleZ());
+  }
+
+  private void resetGyro() {
+    gyro.reset();
+  }
 
   //////// ODOMETRY ////////
 
-  public void updateOdometry() {
-
-    
-
-    odometry.update(Rotation2d.fromDegrees(), getLeftDistance(), getRightDistance());
+  private void updateOdometry() {
+    odometry.update(this.getRotation2d(), this.getLeftDistance(), this.getRightDistance());
   }
 
-  public void resetOdmetry() {
-    
+  public DifferentialDriveWheelSpeeds getWheelSpeeds() {
+    return new DifferentialDriveWheelSpeeds(getLeftVelocity(), getRightVelocity());
   }
+
+  public Rotation2d getRotation2d() {
+    return getAngle().getRotation2d();
+  }
+
+  public Pose2d getPose() {
+    updateOdometry();
+    return odometry.getPoseMeters();
+  }
+
+private void resetOdometer(Pose2d startPose2d) {
+  odometry.resetPosition(startPose2d, new Rotation2d());
+}
+
+// Resets all encoders / gyroscopes to 0
+public void reset(Pose2d startPose2d) {
+  resetEncoders();
+  resetGyro();
+
+  // Must Be Called Last
+  resetOdometer(startPose2d);
+}
+
+public void reset() {
+  reset(Constants.START_POSE);
+}
   
   @Override
   public void periodic() {
     updateOdometry();
+
+    field.setRobotPose(getPose());
     // This method will be called once per scheduler run
   }
 
