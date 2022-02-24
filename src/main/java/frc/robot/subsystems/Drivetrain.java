@@ -8,6 +8,7 @@ import com.stuypulse.stuylib.math.Angle;
 
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Spark;
+import edu.wpi.first.wpilibj.kinematics.DifferentialDriveOdometry;
 import edu.wpi.first.wpilibj.romi.RomiGyro;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -58,10 +59,7 @@ public class Drivetrain extends SubsystemBase {
   }
 
   public void tankDrive(double leftSpeed, double rightSpeed) {
-    if (Math.absleftSpeed > 1 || rightSpeed > 1) {
-
-    }
-    
+  
     leftMotor.set(leftSpeed);
     rightMotor.set(rightSpeed);
   }
