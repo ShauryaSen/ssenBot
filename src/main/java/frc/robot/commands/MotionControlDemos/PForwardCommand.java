@@ -22,15 +22,15 @@ public class PForwardCommand extends CommandBase{
         this.kP = kP;
 
         this.grapher = new Grapher();
-        
 
-        // սէդ ըբ գոլըմնս
-        grapher.write("error, ");
-        grapher.write("MotorOutput (kP * error)");
-        grapher.write("Distance");
-        grapher.write("kP");
-        grapher.write("SetPoint");
-        grapher.write("\n");
+
+        /** GRAPHER HEADINGS **/
+        // grapher.write("error, ");
+        // grapher.write("MotorOutput (kP * error)");
+        // grapher.write("Distance");
+        // grapher.write("kP");
+        // grapher.write("SetPoint");
+        // grapher.write("\n");
 
         // reset the encoders
         drivetrain.resetEncoders();
@@ -48,14 +48,13 @@ public class PForwardCommand extends CommandBase{
         rawMotorOutput = kP * error;
         drivetrain.arcadeDrive(rawMotorOutput, 0);
 
-        // log
-        grapher.write(error);
-        grapher.write(rawMotorOutput);
-        grapher.write(drivetrain.getDistance());
-        grapher.write(kP);
-        grapher.write(this.setPoint);
-        grapher.write("\n");
-
+        /** GRAPHER LOG **/
+        // grapher.write(error);
+        // grapher.write(rawMotorOutput);
+        // grapher.write(drivetrain.getDistance());
+        // grapher.write(kP);
+        // grapher.write(this.setPoint);
+        // grapher.write("\n");
     }
 
     @Override
@@ -66,7 +65,7 @@ public class PForwardCommand extends CommandBase{
 
     @Override
     public void end(boolean interrupted) {
-        grapher.flush();
+        // grapher.flush();
         drivetrain.stop();
     }
 }

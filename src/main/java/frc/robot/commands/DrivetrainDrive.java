@@ -41,7 +41,7 @@ public class DrivetrainDrive extends CommandBase {
     if (Math.abs(driver.getRightX()) < 0.1) {
       rightX = 0.0;
     }
-      drivetrain.arcadeDrive(leftY, rightX);
+      drivetrain.arcadeDrive(rightX, leftY);
   }
 
 }
